@@ -1,0 +1,55 @@
+---
+title: Google
+description: Documentation for the Google provider.
+---
+
+<img src="https://www.google.com/s2/favicons?domain=google.com&sz=64" width="64" height="64" alt="Google" className="mb-6" />
+
+Celeste supports Google's Gemini models for text and multimodal tasks, and Imagen for image generation.
+
+## Credentials
+
+Set the `GOOGLE_API_KEY` environment variable.
+
+```bash
+export GOOGLE_API_KEY="AIza..."
+```
+
+## Text Generation
+
+### Models
+
+- `gemini-1.5-pro` (Default)
+- `gemini-1.5-flash`
+
+### Usage
+
+```python
+from celeste import create_client, Capability, Provider
+
+client = create_client(Capability.TEXT_GENERATION, Provider.GOOGLE)
+response = await client.generate(prompt="Hello Gemini")
+```
+
+## Image Generation
+
+### Models
+
+- `imagen-3.0-generate-001` (Default)
+
+### Usage
+
+```python
+client = create_client(Capability.IMAGE_GENERATION, Provider.GOOGLE)
+response = await client.generate(prompt="A futuristic landscape")
+```
+
+## Video Generation
+
+Google also supports video generation via specific models.
+
+```python
+client = create_client(Capability.VIDEO_GENERATION, Provider.GOOGLE)
+# Usage depends on model availability
+```
+

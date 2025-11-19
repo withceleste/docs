@@ -1,0 +1,66 @@
+---
+title: Multi-Modal Workflows
+description: Combining capabilities for complex workflows.
+---
+
+# Multi-Modal Workflows
+
+One of Celeste's strengths is the ability to combine different modalities using a consistent interface.
+
+## Text to Image
+
+Generate an image based on a detailed description created by an LLM.
+
+```python
+from celeste import create_client, Capability, Provider
+
+# 1. Create clients
+text_client = create_client(Capability.TEXT_GENERATION, Provider.ANTHROPIC)
+image_client = create_client(Capability.IMAGE_GENERATION, Provider.OPENAI)
+
+# 2. Generate prompt
+prompt_response = await text_client.generate(
+    prompt="Describe a surreal landscape with floating islands in 2 sentences."
+)
+image_prompt = prompt_response.content
+print(f"Generating image for: {image_prompt}")
+
+# 3. Generate image
+image_response = await image_client.generate(
+    prompt=image_prompt,
+    quality="hd"
+)
+
+# 4. Save
+image_response.content.save("surreal_islands.png")
+```
+
+## Image to Text (Vision)
+
+Analyze an image using a vision model.
+
+```python
+# Note: Image Intelligence capability implementation details
+# would mirror the structure of other capabilities.
+```
+
+## Text to Speech
+
+Read out generated text.
+
+```python
+text_client = create_client(Capability.TEXT_GENERATION, Provider.OPENAI)
+speech_client = create_client(Capability.SPEECH_GENERATION, Provider.ELEVENLABS)
+
+# Generate story
+story = await text_client.generate(prompt="Tell a very short story.")
+
+# Speak it
+audio = await speech_client.generate(
+    prompt=story.content,
+    voice="rachel"
+)
+
+audio.content.save("story.mp3")
+```
+

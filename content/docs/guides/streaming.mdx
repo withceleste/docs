@@ -1,0 +1,72 @@
+---
+title: Streaming
+description: Consume AI responses in real-time.
+---
+
+# Streaming
+
+Streaming allows you to receive chunks of a response as they are generated, rather than waiting for the entire response to complete. This is essential for creating responsive user experiences.
+
+## Basic Usage
+
+Use the `stream` method instead of `generate`.
+
+```python
+from celeste import create_client, Capability, Provider
+
+client = create_client(Capability.TEXT_GENERATION, Provider.OPENAI)
+
+stream = client.stream(
+    prompt="Count from 1 to 10",
+    max_tokens=50
+)
+
+async for chunk in stream:
+    # chunk is strongly typed based on the capability
+    print(chunk.content, end="", flush=True)
+```
+
+## Handling Chunks
+
+Different capabilities produce different types of chunks.
+
+### Text Generation
+
+Yields `TextGenerationChunk`. `chunk.content` is a `str`.
+
+```python
+async for chunk in stream:
+    print(chunk.content, end="")
+```
+
+### Speech Generation
+
+Yields `SpeechGenerationChunk`. `chunk.content` is `bytes` (raw audio data).
+
+```python
+# Example: Writing to a file stream or audio player
+with open("output.mp3", "wb") as f:
+    async for chunk in stream:
+        f.write(chunk.content)
+```
+
+### Image & Video
+
+Most image and video models do not support streaming of the content itself during generation, but some providers may support progress updates. Currently, Celeste treats image/video generation as atomic operations mostly, but the interface supports streaming if providers enable it.
+
+## Accessing Final Output
+
+After the stream is exhausted, you can access the aggregated `output` property of the stream object. This is equivalent to what `generate()` returns.
+
+```python
+# Consume stream
+async for chunk in stream:
+    pass
+
+# Access final aggregated result
+final_response = stream.output
+print(f"Total tokens: {final_response.usage.total_tokens}")
+```
+
+> **Note**: You must consume the stream fully before accessing `.output`. Otherwise, a `StreamNotExhaustedError` is raised.
+

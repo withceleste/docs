@@ -1,0 +1,69 @@
+---
+title: OpenAI
+description: Documentation for the OpenAI provider.
+---
+
+<img src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" width="64" height="64" alt="OpenAI" className="mb-6" />
+
+Celeste supports OpenAI's full suite of models, including GPT-4o for text, DALL-E 3 for images, and TTS for speech.
+
+## Credentials
+
+Set the `OPENAI_API_KEY` environment variable.
+
+```bash
+export OPENAI_API_KEY="sk-..."
+```
+
+## Text Generation
+
+### Models
+
+- `gpt-4o` (Default)
+- `gpt-4o-mini`
+- `gpt-4-turbo`
+- `gpt-3.5-turbo`
+
+### Usage
+
+```python
+from celeste import create_client, Capability, Provider
+
+client = create_client(Capability.TEXT_GENERATION, Provider.OPENAI, model="gpt-4o")
+response = await client.generate(prompt="Hello GPT-4o")
+```
+
+## Image Generation
+
+### Models
+
+- `dall-e-3` (Default)
+- `dall-e-2`
+
+### Usage
+
+```python
+client = create_client(Capability.IMAGE_GENERATION, Provider.OPENAI)
+response = await client.generate(
+    prompt="A cute robot",
+    quality="hd"
+)
+```
+
+## Speech Generation
+
+### Models
+
+- `tts-1` (Default)
+- `tts-1-hd`
+
+### Usage
+
+```python
+client = create_client(Capability.SPEECH_GENERATION, Provider.OPENAI)
+response = await client.generate(
+    prompt="Hello world",
+    voice="alloy"
+)
+```
+

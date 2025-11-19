@@ -1,0 +1,57 @@
+---
+title: Image Generation
+description: Generate images from text descriptions.
+---
+
+# Image Generation
+
+Generate images from text prompts using diffusion models and other generative AI.
+
+## Usage
+
+```python
+from celeste import create_client, Capability, Provider
+
+client = create_client(Capability.IMAGE_GENERATION, Provider.OPENAI)
+
+response = await client.generate(
+    prompt="A cyberpunk city at night, neon lights, rain",
+    aspect_ratio="16:9",
+    quality="hd"
+)
+
+# Save the image
+with open("city.png", "wb") as f:
+    f.write(response.content.blob)
+```
+
+## Parameters
+
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `prompt` | `str` | The text description of the image. |
+| `aspect_ratio` | `str` | Aspect ratio (e.g., "1:1", "16:9"). |
+| `quality` | `str` | Quality setting (e.g., "standard", "hd"). |
+| `watermark` | `bool` | Whether to add a watermark. |
+| `partial_images` | `int` | Number of images to generate (batch size). |
+
+## Output
+
+The `generate` method returns an `ImageGenerationOutput` object.
+
+```python
+class ImageGenerationOutput:
+    content: ImageArtifact
+    usage: ImageGenerationUsage
+    finish_reason: ImageGenerationFinishReason | None
+```
+
+### ImageArtifact
+
+The `content` is an `ImageArtifact` which abstracts the image data.
+
+- **`blob`**: Raw bytes of the image.
+- **`url`**: URL of the image (if hosted by provider).
+- **`mime_type`**: MIME type (e.g., "image/png").
+- **`save(path)`**: Helper method to save to disk.
+

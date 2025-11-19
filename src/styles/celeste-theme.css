@@ -1,0 +1,85 @@
+:root {
+  --celeste: 0.95 0.075 195.958;
+  --celeste-vibrant: 0.98 0.2 195;
+  --electric: 0.7 0.18 240;
+  --deep-teal: 0.65 0.15 180;
+  --amber: 0.8 0.12 50;
+  --deep-space: 0.11 0.03 235;
+  --space-elevated: 0.14 0.04 235;
+  --space-dim: 0.2 0.05 235;
+
+  --text-bright: 0.92 0.01 195;
+  --text-medium: 0.68 0.03 195;
+  --text-dim: 0.52 0.04 195;
+
+  --success: 0.7 0.15 160;
+  --warning: 0.8 0.12 50;
+  --error: 0.65 0.18 25;
+
+  --background: var(--deep-space);
+  --foreground: var(--text-bright);
+  --primary: var(--celeste);
+  --primary-foreground: var(--deep-space);
+  --secondary: var(--electric);
+  --secondary-foreground: var(--text-bright);
+  --muted: var(--space-dim);
+  --muted-foreground: var(--text-medium);
+  --accent: var(--amber);
+  --accent-foreground: var(--deep-space);
+  --destructive: var(--error);
+  --destructive-foreground: var(--text-bright);
+  --border: var(--space-elevated);
+  --input: var(--space-elevated);
+  --ring: var(--celeste);
+  --card: var(--space-elevated);
+  --card-foreground: var(--text-bright);
+  --popover: var(--space-elevated);
+  --popover-foreground: var(--text-bright);
+  --radius: 0.5rem;
+}
+
+/* Light theme colors */
+:root:not(.dark) {
+  /* Light theme text colors */
+  --text-bright: 0.15 0.01 195;
+  --text-medium: 0.4 0.01 195;
+  --text-dim: 0.55 0.01 195;
+
+  /* Light theme surface colors */
+  --background: 0.98 0.01 195;
+  --foreground: var(--text-bright);
+  --card: 0.98 0.01 195;
+  --card-foreground: var(--text-bright);
+  --muted: 0.95 0.01 195;
+  --muted-foreground: var(--text-medium);
+  --border: 0.85 0.02 195;
+  --input: 0.95 0.01 195;
+  --popover: 0.95 0.01 195;
+  --popover-foreground: var(--text-bright);
+
+  /* Light theme semantic colors */
+  --primary: var(--electric);
+  --primary-foreground: var(--text-bright);
+  --secondary: var(--electric);
+  --secondary-foreground: var(--text-bright);
+  --accent: var(--amber);
+  --accent-foreground: var(--text-bright);
+  --destructive: var(--error);
+  --destructive-foreground: var(--text-bright);
+  --ring: var(--electric);
+}
+
+html {
+  color-scheme: dark light;
+  font-family:
+    var(--font-space-grotesk), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+body {
+  color: oklch(var(--foreground));
+  background: oklch(var(--background));
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

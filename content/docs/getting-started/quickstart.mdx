@@ -1,0 +1,94 @@
+---
+title: Quick Start
+description: Get started with Celeste AI in minutes.
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+# Quick Start
+
+This guide will help you make your first generation request with Celeste.
+
+<Steps>
+<Step>
+## Install
+
+Install Celeste with the text generation capability:
+
+```bash
+uv add "celeste-ai[text-generation]"
+```
+</Step>
+
+<Step>
+## Configure Credentials
+
+Set your API keys as environment variables. Celeste will automatically look for them.
+
+```bash
+export ANTHROPIC_API_KEY="sk-..."
+export OPENAI_API_KEY="sk-..."
+```
+
+Or create a `.env` file:
+
+```bash title=".env"
+ANTHROPIC_API_KEY=sk-...
+OPENAI_API_KEY=sk-...
+```
+</Step>
+
+<Step>
+## Create a Client
+
+Import `create_client` and define the capability and provider you want to use.
+
+```python
+from celeste import create_client, Capability, Provider
+
+client = create_client(
+    capability=Capability.TEXT_GENERATION,
+    provider=Provider.ANTHROPIC,
+)
+```
+</Step>
+
+<Step>
+## Generate Content
+
+Use the `generate` method to create content.
+
+```python
+import asyncio
+
+async def main():
+    response = await client.generate(
+        prompt="Explain quantum computing in one sentence.",
+        temperature=0.7
+    )
+    print(response.content)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+</Step>
+</Steps>
+
+## Multi-Modal Example
+
+Celeste uses the same interface for all modalities.
+
+```python
+# Text
+text_client = create_client(Capability.TEXT_GENERATION, Provider.ANTHROPIC)
+text = await text_client.generate(prompt="Write a haiku about AI")
+
+# Image
+image_client = create_client(Capability.IMAGE_GENERATION, Provider.OPENAI)
+image = await image_client.generate(prompt="A futuristic city at sunset")
+
+# Video
+video_client = create_client(Capability.VIDEO_GENERATION, Provider.GOOGLE)
+video = await video_client.generate(prompt="Waves crashing on a beach")
+```
+

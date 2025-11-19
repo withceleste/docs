@@ -1,0 +1,33 @@
+---
+title: Cohere
+description: Documentation for the Cohere provider.
+---
+
+<img src="https://www.google.com/s2/favicons?domain=cohere.com&sz=64" width="64" height="64" alt="Cohere" className="mb-6" />
+
+Celeste supports Cohere's Command R series models.
+
+## Credentials
+
+Set the `COHERE_API_KEY` environment variable.
+
+```bash
+export COHERE_API_KEY="..."
+```
+
+## Text Generation
+
+### Models
+
+- `command-r-plus` (Default)
+- `command-r`
+
+### Usage
+
+```python
+from celeste import create_client, Capability, Provider
+
+client = create_client(Capability.TEXT_GENERATION, Provider.COHERE)
+response = await client.generate(prompt="Hello Command R")
+```
+

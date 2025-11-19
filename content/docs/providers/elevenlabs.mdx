@@ -1,0 +1,36 @@
+---
+title: ElevenLabs
+description: Documentation for the ElevenLabs provider.
+---
+
+<img src="https://www.google.com/s2/favicons?domain=elevenlabs.io&sz=64" width="64" height="64" alt="ElevenLabs" className="mb-6" />
+
+Celeste supports ElevenLabs for high-quality speech generation.
+
+## Credentials
+
+Set the `ELEVENLABS_API_KEY` environment variable.
+
+```bash
+export ELEVENLABS_API_KEY="..."
+```
+
+## Speech Generation
+
+### Models
+
+- `eleven_multilingual_v2` (Default)
+- `eleven_turbo_v2`
+
+### Usage
+
+```python
+from celeste import create_client, Capability, Provider
+
+client = create_client(Capability.SPEECH_GENERATION, Provider.ELEVENLABS)
+response = await client.generate(
+    prompt="This voice is AI generated.",
+    voice="Rachel" # Use voice ID or name
+)
+```
+

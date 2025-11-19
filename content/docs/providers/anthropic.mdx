@@ -1,0 +1,46 @@
+---
+title: Anthropic
+description: Documentation for the Anthropic provider.
+---
+
+<img src="https://www.google.com/s2/favicons?domain=anthropic.com&sz=64" width="64" height="64" alt="Anthropic" className="mb-6" />
+
+Celeste supports Anthropic's Claude models for text generation.
+
+## Credentials
+
+Set the `ANTHROPIC_API_KEY` environment variable.
+
+```bash
+export ANTHROPIC_API_KEY="sk-ant-..."
+```
+
+## Text Generation
+
+### Models
+
+- `claude-3-5-sonnet-20240620` (Default)
+- `claude-3-opus-20240229`
+- `claude-3-sonnet-20240229`
+- `claude-3-haiku-20240307`
+
+### Usage
+
+```python
+from celeste import create_client, Capability, Provider
+
+client = create_client(Capability.TEXT_GENERATION, Provider.ANTHROPIC, model="claude-3-5-sonnet-20240620")
+response = await client.generate(prompt="Hello Claude")
+```
+
+### Thinking
+
+Anthropic models support extended thinking parameters.
+
+```python
+response = await client.generate(
+    prompt="Solve this complex logic puzzle...",
+    thinking_budget=4096
+)
+```
+

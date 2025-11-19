@@ -1,13 +1,63 @@
 ---
-title: Hello World
-description: Your first document
+title: Introduction
+description: The primitive layer for multi-modal AI.
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+# Celeste AI
 
-## What is Next?
+<div className="flex items-center gap-4 not-prose">
+  <img src="/icon-light.svg" width="64" height="64" alt="Celeste Logo" className="dark:hidden block" />
+  <img src="/icon-dark.svg" width="64" height="64" alt="Celeste Logo" className="hidden dark:block" />
+  <div className="flex flex-col">
+    <span className="text-xl font-bold">The primitive layer for multi-modal AI</span>
+    <span className="text-muted-foreground">All capabilities. All providers. One interface.</span>
+  </div>
+</div>
 
-<Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
-</Cards>
+Celeste is a unified interface for multi-modal AI. It provides a consistent, type-safe API across text, image, video, and audio generation from all major providers.
+
+## Why Celeste?
+
+- **Primitives, not frameworks**: Celeste gives you raw building blocks, not opinionated chains or agents.
+- **Unified Interface**: Switch between OpenAI, Anthropic, Google, and others with a single line of code.
+- **Type-Safe**: Full IDE support with Pydantic models for inputs and outputs.
+- **Multi-Modal**: First-class support for text, image, video, and audio.
+
+## Supported Providers
+
+<div className="grid grid-cols-4 gap-4 my-6">
+  <div className="flex items-center gap-2 p-2 border rounded-lg">
+    <img src="https://www.google.com/favicon.ico" width="20" height="20" alt="Google" />
+    <span>Google</span>
+  </div>
+  <div className="flex items-center gap-2 p-2 border rounded-lg">
+    <img src="https://www.anthropic.com/favicon.ico" width="20" height="20" alt="Anthropic" />
+    <span>Anthropic</span>
+  </div>
+  <div className="flex items-center gap-2 p-2 border rounded-lg">
+    <img src="https://www.google.com/s2/favicons?domain=openai.com&sz=64" width="20" height="20" alt="OpenAI" />
+    <span>OpenAI</span>
+  </div>
+  <div className="flex items-center gap-2 p-2 border rounded-lg">
+    <img src="https://mistral.ai/favicon.ico" width="20" height="20" alt="Mistral" />
+    <span>Mistral</span>
+  </div>
+  <div className="flex items-center gap-2 p-2 border rounded-lg">
+    <img src="https://cohere.com/favicon.ico" width="20" height="20" alt="Cohere" />
+    <span>Cohere</span>
+  </div>
+  <div className="flex items-center gap-2 p-2 border rounded-lg">
+    <img src="https://x.ai/favicon.ico" width="20" height="20" alt="xAI" />
+    <span>xAI</span>
+  </div>
+  <div className="flex items-center gap-2 p-2 border rounded-lg">
+    <img src="https://www.google.com/s2/favicons?domain=elevenlabs.io&sz=32" width="20" height="20" alt="ElevenLabs" />
+    <span>ElevenLabs</span>
+  </div>
+  <div className="flex items-center gap-2 p-2 border rounded-lg">
+    <img src="https://www.google.com/s2/favicons?domain=byteplus.com&sz=32" width="20" height="20" alt="ByteDance" />
+    <span>ByteDance</span>
+  </div>
+</div>
+
+And many more including Perplexity, Groq, Replicate, and Stability AI.

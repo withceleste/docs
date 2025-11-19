@@ -1,0 +1,51 @@
+---
+title: Error Handling
+description: Handling exceptions in Celeste.
+---
+
+# Error Handling
+
+Celeste provides a hierarchy of exceptions to help you handle errors gracefully. All exceptions inherit from `celeste.exceptions.Error`.
+
+## Exception Hierarchy
+
+- **`Error`**: Base class for all Celeste errors.
+    - **`ModelError`**
+        - **`ModelNotFoundError`**: The requested model (or a default) could not be found.
+    - **`CapabilityError`**
+        - **`UnsupportedCapabilityError`**: The model doesn't support the requested capability.
+    - **`ClientError`**
+        - **`ClientNotFoundError`**: No client implementation exists for the provider/capability.
+    - **`CredentialsError`**
+        - **`MissingCredentialsError`**: API key is missing.
+        - **`UnsupportedProviderError`**: Provider is not configured in the credential system.
+    - **`ValidationError`**
+        - **`ConstraintViolationError`**: A parameter value violates model constraints (e.g., temperature > 2.0).
+        - **`UnsupportedParameterError`**: The model doesn't support a passed parameter.
+    - **`StreamingError`**
+        - **`StreamingNotSupportedError`**: The model doesn't support streaming.
+        - **`StreamNotExhaustedError`**: Accessed `.output` before stream finished.
+        - **`StreamEmptyError`**: Stream produced no chunks.
+    - **`httpx.HTTPStatusError`**: Underlying HTTP errors from providers (400, 401, 429, 500).
+
+## Example
+
+```python
+from celeste import create_client, Capability, Provider
+from celeste.exceptions import MissingCredentialsError, ModelNotFoundError
+import httpx
+
+try:
+    client = create_client(Capability.TEXT_GENERATION, Provider.OPENAI)
+    response = await client.generate(prompt="Hello")
+
+except MissingCredentialsError:
+    print("Please set your OPENAI_API_KEY.")
+
+except ModelNotFoundError:
+    print("The requested model isn't available.")
+
+except httpx.HTTPStatusError as e:
+    print(f"Provider API error: {e.response.status_code} - {e.response.text}")
+```
+

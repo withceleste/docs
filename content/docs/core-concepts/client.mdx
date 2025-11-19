@@ -1,0 +1,79 @@
+---
+title: The Client
+description: The unified interface for all AI capabilities.
+---
+
+# The Client
+
+The `Client` is the core primitive in Celeste. It provides a consistent interface for interacting with different AI models and capabilities.
+
+## Creating a Client
+
+Use the `create_client` function to instantiate a client.
+
+```python
+from celeste import create_client, Capability, Provider
+
+client = create_client(
+    capability=Capability.TEXT_GENERATION,
+    provider=Provider.ANTHROPIC,
+)
+```
+
+### Arguments
+
+- **`capability`** (`Capability`): The capability to use (e.g., `TEXT_GENERATION`, `IMAGE_GENERATION`).
+- **`provider`** (`Provider`, optional): The provider to use. Required if `model` is a string ID.
+- **`model`** (`Model | str`, optional): Specific model to use. If omitted, a default model for the provider/capability is selected.
+- **`api_key`** (`SecretStr`, optional): API key override. If omitted, loaded from environment variables.
+
+## The Client Interface
+
+All clients share a common interface with two main methods: `generate` and `stream`.
+
+### `generate`
+
+The `generate` method creates a complete response.
+
+```python
+response = await client.generate(
+    prompt="Hello world",
+    temperature=0.7
+)
+```
+
+- **Arguments**: Positional arguments (like `prompt`) and keyword arguments (parameters like `temperature`) vary by capability.
+- **Returns**: A strongly-typed output object (e.g., `TextGenerationOutput`).
+
+### `stream`
+
+The `stream` method yields chunks of the response as they are generated.
+
+```python
+stream = client.stream(
+    prompt="Hello world",
+    temperature=0.7
+)
+
+async for chunk in stream:
+    print(chunk.content, end="")
+```
+
+- **Arguments**: Same as `generate`.
+- **Returns**: An async iterator yielding typed chunks.
+
+## Type Safety
+
+Clients are generic over their Input, Output, and Parameters. This means your IDE can provide autocomplete and type checking for:
+
+- **Parameters**: `temperature`, `max_tokens`, etc.
+- **Response**: `response.content`, `response.usage`, etc.
+
+```python
+# IDE knows this is TextGenerationOutput
+response = await client.generate(prompt="...")
+
+# IDE knows this is int
+tokens = response.usage.total_tokens
+```
+
