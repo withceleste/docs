@@ -1,8 +1,8 @@
 "use client";
 
-import { Search } from "lucide-react";
 import { useSearchContext } from "fumadocs-ui/contexts/search";
-import { useEffect, type ReactElement } from "react";
+import { Search } from "lucide-react";
+import { type ReactElement, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 interface SidebarSearchProps {

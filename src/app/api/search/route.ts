@@ -1,5 +1,5 @@
-import { source } from "@/lib/source";
 import { createFromSource } from "fumadocs-core/search/server";
+import { source } from "@/lib/source";
 
 // Use staticGET for static export compatibility
 export const { staticGET: GET } = createFromSource(source, {
