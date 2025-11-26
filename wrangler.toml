@@ -1,11 +1,7 @@
 name = "celeste-docs"
 compatibility_date = "2025-04-01"
-compatibility_flags = ["nodejs_compat"]
-
-[[routes]]
-pattern = "docs.withceleste.ai"
-custom_domain = true
 
 [assets]
 directory = "./out"
+html_handling = "auto-trailing-slash"
 not_found_handling = "single-page-application"
