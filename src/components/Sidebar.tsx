@@ -1,10 +1,10 @@
 "use client";
 
-import * as PageTree from "fumadocs-core/page-tree";
+import type * as PageTree from "fumadocs-core/page-tree";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { ChevronRight } from "lucide-react";
 
 interface SidebarProps {
   tree: PageTree.Root;

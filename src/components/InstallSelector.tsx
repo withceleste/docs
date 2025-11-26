@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { Check, Copy, Terminal } from "lucide-react";
+import { useState } from "react";
 import { cn } from "@/lib/utils"; // Assuming a utility for classnames exists or I'll inline it
 
 // Simplified cn utility if it doesn't exist in context

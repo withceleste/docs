@@ -1,6 +1,9 @@
+import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import { RootProvider } from "fumadocs-ui/provider/next";
-import "./global.css";
 import { Space_Grotesk, Space_Mono } from "next/font/google";
+import { baseOptions } from "@/lib/layout.shared";
+import { source } from "@/lib/source";
+import "./global.css";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -24,7 +27,11 @@ export default function Layout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="flex flex-col min-h-screen">
-        <RootProvider>{children}</RootProvider>
+        <RootProvider>
+          <DocsLayout tree={source.pageTree} {...baseOptions()}>
+            {children}
+          </DocsLayout>
+        </RootProvider>
       </body>
     </html>
   );
