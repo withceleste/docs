@@ -23,7 +23,19 @@ export function baseOptions(): BaseLayoutProps {
           <span>Celeste AI</span>
         </div>
       ),
-      url: "/docs",
+      url: "/",
     },
+    links: [
+      {
+        text: "Website",
+        url: "https://withceleste.ai",
+        external: true,
+      },
+      {
+        text: "GitHub",
+        url: "https://github.com/withceleste/celeste-python",
+        external: true,
+      },
+    ],
   };
 }
