@@ -1,6 +1,6 @@
 "use client";
 
-import type { PageTree } from "fumadocs-core/server";
+import * as PageTree from "fumadocs-core/page-tree";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -46,7 +46,11 @@ function SidebarList({ items }: { items: PageTree.Node[] }) {
 
         if (item.type === "folder") {
           return (
-            <SidebarFolder key={item.name} item={item} pathname={pathname} />
+            <SidebarFolder
+              key={String(item.name)}
+              item={item}
+              pathname={pathname}
+            />
           );
         }
 
