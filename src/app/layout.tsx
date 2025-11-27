@@ -26,7 +26,7 @@ export default function Layout({ children }: LayoutProps<"/">) {
       className={`${spaceGrotesk.variable} ${spaceMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen" suppressHydrationWarning>
         <RootProvider>
           <DocsLayout tree={source.pageTree} {...baseOptions()}>
             {children}
