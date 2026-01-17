@@ -1,0 +1,67 @@
+---
+title: Architecture
+description: Understanding the Modality-Centric Architecture of Celeste v1.
+---
+
+# Architecture
+
+Celeste v1 is designed around a **modality-centric core** with a **namespace-first public API**. Internally, the system is organized by the *output* type (modality), while the external API starts from the domain you work with.
+
+## Core Concepts
+
+The architecture is built on three pillars:
+
+1.  **Modality (Output)**: The output type returned by an operation (e.g., text, images, audio, embeddings).
+2.  **Domain (What you work with)**: The resource you operate on (e.g., text, image, audio, video).
+3.  **Operation (Transformation)**: The method you call (e.g., `generate`, `analyze`).
+
+Rule of thumb:
+- **Namespaces use domains**: start from `celeste.images`, `celeste.audio`, etc.
+- **Clients use modalities**: use `create_client(modality=...)` when you need explicit control.
+
+## Package Structure
+
+The codebase is organized as a monolith, with modalities and providers grouped under `src/celeste`.
+
+```
+src/celeste/
+├── modalities/
+│   ├── text/
+│   │   ├── client.py           # TextClient(ModalityClient)
+│   │   ├── io.py               # Inputs, Outputs, Chunks
+│   │   └── providers/
+│   ├── images/
+│   ├── audio/
+│   ├── videos/
+│   └── embeddings/
+├── providers/                  # Provider integrations
+└── namespaces/                 # Domain-first namespace API
+```
+
+### Key Components
+
+*   **`ModalityClient`**: The base class for all modality clients (e.g., `ImagesClient`). It handles shared infrastructure like HTTP clients and authentication.
+*   **Operations as Methods**: Unlike previous versions where operations were separate packages, they are now methods on the client (e.g., `client.generate()`, `client.edit()`).
+*   **Operation-Scoped Types**: Inputs and Parameters are scoped to specific operations to ensure type safety.
+
+## Client Design
+
+The namespace API routes **domain + operation → modality client** under the hood.
+
+### Execution Modes
+
+Clients support three execution modes to handle different use cases:
+
+1.  **Async (Default)**: `await client.generate(...)` - Returns typed Output objects. Best for production applications.
+2.  **Streaming**: `client.stream.generate(...)` - Returns an `AsyncIterator` of Chunks. Best for UIs requiring real-time feedback.
+3.  **Sync**: `client.sync.generate(...)` - Blocking calls. Best for scripts, notebooks, and testing.
+
+### Example: Images Domain Namespace
+
+The `celeste.images` namespace groups operations by the **image domain**, even when the output is text:
+
+- `celeste.images.generate(...)` → image output.
+- `celeste.images.edit(...)` → image output.
+- `celeste.images.analyze(...)` → text output.
+
+This keeps the public API intuitive while maintaining consistent output types via modality clients.
