@@ -12,10 +12,9 @@ Celeste provides a hierarchy of exceptions to help you handle errors gracefully.
 - **`Error`**: Base class for all Celeste errors.
     - **`ModelError`**
         - **`ModelNotFoundError`**: The requested model (or a default) could not be found.
-    - **`CapabilityError`**
-        - **`UnsupportedCapabilityError`**: The model doesn't support the requested capability.
     - **`ClientError`**
-        - **`ClientNotFoundError`**: No client implementation exists for the provider/capability.
+        - **`ClientNotFoundError`**: No client implementation exists for the provider/modality.
+        - **`ModalityNotFoundError`**: No client registered for the requested modality.
     - **`CredentialsError`**
         - **`MissingCredentialsError`**: API key is missing.
         - **`UnsupportedProviderError`**: Provider is not configured in the credential system.
@@ -31,13 +30,15 @@ Celeste provides a hierarchy of exceptions to help you handle errors gracefully.
 ## Example
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 from celeste.exceptions import MissingCredentialsError, ModelNotFoundError
 import httpx
 
 try:
-    client = create_client(Capability.TEXT_GENERATION, Provider.OPENAI)
-    response = await client.generate(prompt="Hello")
+    response = await celeste.text.generate(
+        model="gpt-4o",
+        prompt="Hello"
+    )
 
 except MissingCredentialsError:
     print("Please set your OPENAI_API_KEY.")

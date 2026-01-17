@@ -9,30 +9,29 @@ Streaming allows you to receive chunks of a response as they are generated, rath
 
 ## Basic Usage
 
-Use the `stream` method instead of `generate`.
+Use the domain namespace with `.stream` to access streaming operations.
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 
-client = create_client(Capability.TEXT_GENERATION, Provider.OPENAI)
-
-stream = client.stream(
+stream = celeste.text.stream.generate(
+    model="gpt-4o",
     prompt="Count from 1 to 10",
-    max_tokens=50
+    max_tokens=50,
 )
 
 async for chunk in stream:
-    # chunk is strongly typed based on the capability
+    # chunk is strongly typed based on the modality
     print(chunk.content, end="", flush=True)
 ```
 
 ## Handling Chunks
 
-Different capabilities produce different types of chunks.
+Different modalities produce different types of chunks.
 
 ### Text Generation
 
-Yields `TextGenerationChunk`. `chunk.content` is a `str`.
+Yields `TextChunk`. `chunk.content` is a `str`.
 
 ```python
 async for chunk in stream:
@@ -41,7 +40,7 @@ async for chunk in stream:
 
 ### Speech Generation
 
-Yields `SpeechGenerationChunk`. `chunk.content` is `bytes` (raw audio data).
+Yields `AudioChunk`. `chunk.content` is `bytes` (raw audio data).
 
 ```python
 # Example: Writing to a file stream or audio player

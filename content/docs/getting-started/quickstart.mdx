@@ -13,10 +13,10 @@ This guide will help you make your first generation request with Celeste.
 <Step>
 ## Install
 
-Install Celeste with the text generation capability:
+Install Celeste:
 
 ```bash
-uv add "celeste-ai[text-generation]"
+uv add celeste-ai
 ```
 </Step>
 
@@ -39,56 +39,82 @@ OPENAI_API_KEY=sk-...
 </Step>
 
 <Step>
-## Create a Client
+## Use a domain namespace (recommended)
 
-Import `create_client` and define the capability and provider you want to use.
+Import `celeste` and call the domain you work with. Domain is what you work with, not input or output.
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 
-client = create_client(
-    capability=Capability.TEXT_GENERATION,
-    provider=Provider.ANTHROPIC,
+# Domain: text
+response = await celeste.text.generate(
+    model="claude-sonnet-4-5",
+    prompt="Explain quantum computing in one sentence.",
 )
+print(response.content)
 ```
 </Step>
 
 <Step>
 ## Generate Content
 
-Use the `generate` method to create content.
+import { MethodSelector } from '@/components/MethodSelector';
+
+<MethodSelector items={["Async (Default)", "Sync"]}>
+
+<div>
+Non-blocking I/O. Recommended for production apps and notebooks.
 
 ```python
-import asyncio
-
-async def main():
-    response = await client.generate(
-        prompt="Explain quantum computing in one sentence.",
-        temperature=0.7
-    )
-    print(response.content)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+response = await celeste.text.generate(
+    model="claude-sonnet-4-5",
+    prompt="Explain quantum computing in one sentence.",
+    temperature=0.7,
+)
+print(response.content)
 ```
+</div>
+
+<div>
+Blocking I/O. Suitable for scripts and simple tools.
+
+```python
+response = celeste.text.sync.generate(
+    model="claude-sonnet-4-5",
+    prompt="Explain quantum computing in one sentence.",
+    temperature=0.7,
+)
+print(response.content)
+```
+</div>
+
+</MethodSelector>
 </Step>
 </Steps>
 
 ## Multi-Modal Example
 
-Celeste uses the same interface for all modalities.
+Celeste uses the same interface for every domain and operation.
 
 ```python
-# Text
-text_client = create_client(Capability.TEXT_GENERATION, Provider.ANTHROPIC)
-text = await text_client.generate(prompt="Write a haiku about AI")
+import celeste
 
-# Image
-image_client = create_client(Capability.IMAGE_GENERATION, Provider.OPENAI)
-image = await image_client.generate(prompt="A futuristic city at sunset")
+# Text domain → text output
+text = await celeste.text.generate(
+    model="claude-sonnet-4-5",
+    prompt="Write a haiku about AI",
+)
 
-# Video
-video_client = create_client(Capability.VIDEO_GENERATION, Provider.GOOGLE)
-video = await video_client.generate(prompt="Waves crashing on a beach")
+# Images domain → image output
+image = await celeste.images.generate(
+    model="gpt-image-1",
+    prompt="A futuristic city at sunset",
+)
+
+# Videos domain → video output
+video = await celeste.videos.generate(
+    model="veo-3",
+    prompt="Waves crashing on a beach",
+)
 ```
 

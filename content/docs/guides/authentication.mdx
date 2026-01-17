@@ -1,0 +1,111 @@
+---
+title: Authentication
+description: Configure API keys and OAuth for Celeste providers.
+---
+
+# Authentication
+
+Celeste supports two authentication methods: API keys for most providers, and OAuth for Google Cloud APIs.
+
+## API Keys (Most Providers)
+
+### Environment Variables
+
+Set your API key as an environment variable:
+
+```bash
+export OPENAI_API_KEY="sk-..."
+```
+
+Or use a `.env` file:
+
+```bash title=".env"
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-...
+```
+
+### Provider Reference
+
+| Provider | Environment Variable |
+|----------|---------------------|
+| OpenAI | `OPENAI_API_KEY` |
+| Anthropic | `ANTHROPIC_API_KEY` |
+| Google (Gemini) | `GOOGLE_API_KEY` |
+| Mistral | `MISTRAL_API_KEY` |
+| Cohere | `COHERE_API_KEY` |
+| ElevenLabs | `ELEVENLABS_API_KEY` |
+| Groq | `GROQ_API_KEY` |
+| BFL | `BFL_API_KEY` |
+| DeepSeek | `DEEPSEEK_API_KEY` |
+| xAI | `XAI_API_KEY` |
+
+## Google Cloud (OAuth)
+
+Google Cloud APIs (like Cloud TTS with Gemini voices) require OAuth authentication instead of API keys.
+
+### Setup
+
+1. Install the [gcloud CLI](https://cloud.google.com/sdk/docs/install)
+
+2. Login with Application Default Credentials:
+
+```bash
+gcloud auth application-default login
+```
+
+3. Set your project (for billing/quota):
+
+```bash
+gcloud config set project YOUR_PROJECT_ID
+```
+
+### Usage
+
+```python
+import celeste
+
+# No API key needed - uses OAuth automatically
+response = await celeste.audio.speak(
+    model="gemini-2.5-flash-tts",
+    provider="google",
+    text="Hello from Google Cloud",
+)
+```
+
+### Troubleshooting
+
+| Error | Solution |
+|-------|----------|
+| `RefreshError: Reauthentication is needed` | Run `gcloud auth application-default login` |
+| Quota/project errors | Run `gcloud config set project YOUR_PROJECT_ID` |
+
+## Explicit Authentication
+
+Override environment variables by passing `api_key` directly:
+
+```python
+import celeste
+
+response = await celeste.text.generate(
+    model="gpt-4o",
+    api_key="sk-...",
+    prompt="Hello",
+)
+```
+
+### Advanced: custom auth headers
+
+For custom headers, use `create_client` with the `auth` parameter:
+
+```python
+import celeste
+from celeste import APIKey
+
+client = celeste.create_client(
+    modality="text",
+    auth=APIKey(
+        key="sk-...",
+        header="X-Custom-Header",
+    ),
+)
+```
