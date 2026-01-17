@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Note: rewrites don't work with static export
+  // Static .mdx files are generated via postbuild script instead
   async rewrites() {
     return [
       {

@@ -3,14 +3,11 @@ import type { MDXComponents } from "mdx/types";
 import { InstallSelector } from "@/components/InstallSelector";
 import { Mermaid } from "@/components/Mermaid";
 
-type MDXComponentsOptions = MDXComponents & {
-  isProviderPage?: boolean;
-};
-
 export function getMDXComponents(
-  options?: MDXComponentsOptions,
+  components?: MDXComponents,
+  options?: { isProviderPage?: boolean },
 ): MDXComponents {
-  const { isProviderPage, ...components } = options || {};
+  const { isProviderPage } = options || {};
   return {
     ...defaultMdxComponents,
     InstallSelector,

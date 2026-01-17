@@ -78,10 +78,10 @@ export default async function Page(props: PageProps<"/[[...slug]]">) {
       </div>
       <DocsBody data-provider-page={isProviderPage ? "true" : undefined}>
         <MDX
-          components={getMDXComponents({
-            a: createRelativeLink(source, page),
-            isProviderPage,
-          })}
+          components={getMDXComponents(
+            { a: createRelativeLink(source, page) },
+            { isProviderPage }
+          )}
         />
       </DocsBody>
     </DocsPage>
