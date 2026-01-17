@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "generate-provider-docs": "bash scripts/generate-provider-docs.sh",
+    "generate-static-mdx": "bun scripts/generate-static-mdx.ts",
     "build": "next build",
     "dev": "next dev",
     "prebuild": "CELESTE_SOURCE=local bun run generate-provider-docs",
     "predev": "CELESTE_SOURCE=local bun run generate-provider-docs",
+    "postbuild": "bun run generate-static-mdx",
     "start": "next start",
     "postinstall": "fumadocs-mdx",
     "lint": "biome check",
