@@ -10,29 +10,6 @@ function classNames(...classes: (string | undefined | null | false)[]) {
 }
 
 type PackageManager = "uv" | "pip" | "poetry";
-type Capability =
-  | "all"
-  | "text-generation"
-  | "image-generation"
-  | "video-generation"
-  | "speech-generation";
-
-const CAPABILITIES: { id: Capability; label: string; description?: string }[] =
-  [
-    { id: "all", label: "All Features", description: "Everything included" },
-    { id: "text-generation", label: "Text", description: "LLMs & Chat" },
-    {
-      id: "image-generation",
-      label: "Image",
-      description: "Generation & Editing",
-    },
-    {
-      id: "video-generation",
-      label: "Video",
-      description: "Creation & Analysis",
-    },
-    { id: "speech-generation", label: "Speech", description: "TTS & Audio" },
-  ];
 
 const MANAGERS: { id: PackageManager; label: string }[] = [
   { id: "uv", label: "uv" },
@@ -42,21 +19,18 @@ const MANAGERS: { id: PackageManager; label: string }[] = [
 
 export function InstallSelector() {
   const [manager, setManager] = useState<PackageManager>("uv");
-  const [capability, setCapability] = useState<Capability>("all");
   const [copied, setCopied] = useState(false);
 
   const getCommand = () => {
-    const packageSpec = `celeste-ai[${capability}]`;
-    // pip and poetry usually require quotes for brackets in zsh/bash
-    const quotedSpec = `"${packageSpec}"`;
+    const packageSpec = "celeste-ai";
 
     switch (manager) {
       case "uv":
-        return `uv add ${quotedSpec}`;
+        return `uv add ${packageSpec}`;
       case "pip":
-        return `pip install ${quotedSpec}`;
+        return `pip install ${packageSpec}`;
       case "poetry":
-        return `poetry add ${quotedSpec}`;
+        return `poetry add ${packageSpec}`;
     }
   };
 
@@ -93,43 +67,6 @@ export function InstallSelector() {
         </div>
       </div>
 
-      {/* Capability Selection */}
-      <div className="mb-8">
-        <div className="mb-3 text-sm font-medium text-fd-muted-foreground">
-          Select capabilities
-        </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
-          {CAPABILITIES.map((c) => (
-            <button
-              key={c.id}
-              onClick={() => setCapability(c.id)}
-              className={classNames(
-                "group flex flex-col items-start rounded-lg border p-3 text-left transition-all duration-200",
-                capability === c.id
-                  ? "border-fd-primary bg-fd-primary/5 ring-1 ring-fd-primary"
-                  : "border-fd-border bg-fd-card hover:border-fd-primary/50 hover:bg-fd-accent/50",
-              )}
-            >
-              <span
-                className={classNames(
-                  "text-sm font-semibold",
-                  capability === c.id
-                    ? "text-fd-primary"
-                    : "text-fd-foreground",
-                )}
-              >
-                {c.label}
-              </span>
-              {c.description && (
-                <span className="mt-1 text-[10px] text-fd-muted-foreground">
-                  {c.description}
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Command Output */}
       <div className="relative group overflow-hidden rounded-lg border border-fd-border bg-[#0d1117] dark:bg-black">
         <div className="flex items-center justify-between p-4">
@@ -142,9 +79,7 @@ export function InstallSelector() {
               <span className="text-gray-400">
                 {manager === "pip" ? "install" : "add"}
               </span>{" "}
-              <span className="text-green-400">
-                "{`celeste-ai[${capability}]`}"
-              </span>
+              <span className="text-green-400">celeste-ai</span>
             </span>
           </div>
           <button

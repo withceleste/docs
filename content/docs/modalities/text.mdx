@@ -1,0 +1,94 @@
+---
+title: Text
+description: Text generation and analysis (LLMs).
+---
+
+# Text Modality
+
+The **Text** modality is the **output type** for text. Use `celeste.text.generate(...)` when you work with text, and use domain namespaces like `celeste.images.analyze(...)` or `celeste.audio.analyze(...)` when you work with media but want text output.
+
+## Operations
+
+| Operation | Description |
+| :--- | :--- |
+| **`generate`** | Generate text from a text prompt. |
+| **`analyze`** | Analyze images, video, or audio to generate a text description. |
+
+## Quick Start
+
+```python
+import celeste
+
+# Generate (domain: text)
+response = await celeste.text.generate(
+    model="claude-sonnet-4-5",
+    prompt="Write a haiku about rust.",
+)
+print(response.content)
+
+# Streaming
+async for chunk in celeste.text.stream.generate(
+    model="claude-sonnet-4-5",
+    prompt="Explain quantum mechanics",
+):
+    print(chunk.content, end="")
+```
+
+## Analyze (Multi-Modal)
+
+The `analyze` operation on a **Text** client can process images, videos, or audio to generate text descriptions.
+
+### Image Analysis
+
+```python
+from celeste.artifacts import ImageArtifact
+
+image = ImageArtifact(path="screenshot.png")
+
+response = await celeste.images.analyze(
+    model="gpt-4o",
+    prompt="What is in this image?",
+    image=image
+)
+print(response.content)
+```
+
+### Video Analysis
+
+```python
+from celeste.artifacts import VideoArtifact
+
+video = VideoArtifact(path="clip.mp4")
+
+response = await celeste.videos.analyze(
+    model="gpt-4o",
+    prompt="Describe what happens in this video",
+    video=video
+)
+print(response.content)
+```
+
+### Audio Analysis
+
+```python
+from celeste.artifacts import AudioArtifact
+
+audio = AudioArtifact(path="recording.mp3")
+
+response = await celeste.audio.analyze(
+    model="gpt-4o",
+    prompt="What is being said in this audio?",
+    audio=audio
+)
+print(response.content)
+```
+
+## Providers
+
+Supported providers for Text:
+- OpenAI (GPT-4o, etc.)
+- Anthropic (Claude)
+- Google (Gemini)
+- Mistral
+- Cohere
+- Meta (Llama via providers)

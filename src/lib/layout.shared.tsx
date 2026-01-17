@@ -1,6 +1,9 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import Image from "next/image";
 
+export const WEBSITE_URL = "https://withceleste.ai";
+export const GITHUB_URL = "https://github.com/withceleste/celeste-python";
+
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
@@ -25,17 +28,5 @@ export function baseOptions(): BaseLayoutProps {
       ),
       url: "/",
     },
-    links: [
-      {
-        text: "Website",
-        url: "https://withceleste.ai",
-        external: true,
-      },
-      {
-        text: "GitHub",
-        url: "https://github.com/withceleste/celeste-python",
-        external: true,
-      },
-    ],
   };
 }

@@ -10,11 +10,15 @@ description: The primitive layer for multi-modal AI.
   <img src="/icon-dark.svg" width="64" height="64" alt="Celeste Logo" className="hidden dark:block" />
   <div className="flex flex-col">
     <span className="text-xl font-bold">The primitive layer for multi-modal AI</span>
-    <span className="text-muted-foreground">All capabilities. All providers. One interface.</span>
+    <span className="text-muted-foreground">All modalities. All providers. One interface.</span>
   </div>
 </div>
 
 Celeste is a unified interface for multi-modal AI. It provides a consistent, type-safe API across text, image, video, and audio generation from all major providers.
+
+> Beta: The v1 public beta is available as `0.9`. The docs below reflect the namespace-first API and the domain → modality mental model.
+>
+> LLM-friendly export: [llms-full.txt](/llms-full.txt) for one-page ingestion.
 
 ## Why Celeste?
 
@@ -25,39 +29,61 @@ Celeste is a unified interface for multi-modal AI. It provides a consistent, typ
 
 ## Supported Providers
 
-<div className="grid grid-cols-4 gap-4 my-6">
-  <div className="flex items-center gap-2 p-2 border rounded-lg">
-    <img src="/logos/google.svg" width="20" height="20" alt="Google" />
-    <span>Google</span>
-  </div>
-  <div className="flex items-center gap-2 p-2 border rounded-lg">
-    <img src="/logos/anthropic.svg" width="20" height="20" alt="Anthropic" className="dark:invert" />
+{/* AUTO-GENERATED:SUPPORTED_PROVIDERS:START */}
+
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 my-6 not-prose">
+  <a href="/providers/anthropic" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/anthropic.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0 dark:invert" />
     <span>Anthropic</span>
-  </div>
-  <div className="flex items-center gap-2 p-2 border rounded-lg">
-    <img src="/logos/openai.svg" width="20" height="20" alt="OpenAI" className="dark:invert" />
-    <span>OpenAI</span>
-  </div>
-  <div className="flex items-center gap-2 p-2 border rounded-lg">
-    <img src="/logos/mistral.svg" width="20" height="20" alt="Mistral" />
-    <span>Mistral</span>
-  </div>
-  <div className="flex items-center gap-2 p-2 border rounded-lg">
-    <img src="/logos/cohere.svg" width="20" height="20" alt="Cohere" />
+  </a>
+  <a href="/providers/bfl" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/bfl.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0 dark:invert" />
+    <span>Black Forest Labs</span>
+  </a>
+  <a href="/providers/byteplus" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/bytedance.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0" />
+    <span>BytePlus</span>
+  </a>
+  <a href="/providers/cohere" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/cohere.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0" />
     <span>Cohere</span>
-  </div>
-  <div className="flex items-center gap-2 p-2 border rounded-lg">
-    <img src="/logos/xai.svg" width="20" height="20" alt="xAI" className="dark:invert" />
-    <span>xAI</span>
-  </div>
-  <div className="flex items-center gap-2 p-2 border rounded-lg">
-    <img src="/logos/elevenlabs.svg" width="20" height="20" alt="ElevenLabs" className="dark:invert" />
+  </a>
+  <a href="/providers/deepseek" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/deepseek.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0" />
+    <span>DeepSeek</span>
+  </a>
+  <a href="/providers/elevenlabs" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/elevenlabs.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0 dark:invert" />
     <span>ElevenLabs</span>
-  </div>
-  <div className="flex items-center gap-2 p-2 border rounded-lg">
-    <img src="/logos/bytedance.svg" width="20" height="20" alt="ByteDance" />
-    <span>ByteDance</span>
-  </div>
+  </a>
+  <a href="/providers/google" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/google.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0" />
+    <span>Google</span>
+  </a>
+  <a href="/providers/gradium" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/gradium.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0" />
+    <span>Gradium</span>
+  </a>
+  <a href="/providers/groq" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/groq.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0 dark:invert" />
+    <span>Groq</span>
+  </a>
+  <a href="/providers/mistral" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/mistral.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0" />
+    <span>Mistral</span>
+  </a>
+  <a href="/providers/moonshot" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/moonshot.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0" />
+    <span>Moonshot</span>
+  </a>
+  <a href="/providers/openai" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/openai.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0 dark:invert" />
+    <span>OpenAI</span>
+  </a>
+  <a href="/providers/xai" className="flex items-center gap-2 p-2 border rounded-lg no-underline hover:bg-fd-accent/50 transition-colors">
+    <img src="/logos/xai.svg" width="20" height="20" alt="" aria-hidden="true" className="h-5 w-5 shrink-0 dark:invert" />
+    <span>xAI</span>
+  </a>
 </div>
 
-And many more including Perplexity, Groq, Replicate, and Stability AI.
+{/* AUTO-GENERATED:SUPPORTED_PROVIDERS:END */}

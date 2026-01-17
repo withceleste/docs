@@ -1,0 +1,38 @@
+---
+title: Audio
+description: Operations on the audio domain.
+---
+
+# Audio Domain
+
+The **audio domain** covers text-to-speech and audio analysis. Analysis returns **text output** because the modality is text.
+
+## Operations
+
+| Operation | Output Modality | Namespace call |
+| :--- | :--- | :--- |
+| `speak` | Audio | `await celeste.audio.speak(...)` |
+| `analyze` | Text | `await celeste.audio.analyze(...)` |
+
+## Examples
+
+```python
+import celeste
+from celeste.artifacts import AudioArtifact
+
+# Speak → audio output
+audio = await celeste.audio.speak(
+    model="eleven_multilingual_v2",
+    text="Hello from Celeste",
+    voice="Rachel",
+)
+
+# Analyze → text output
+recording = AudioArtifact(path="recording.mp3")
+summary = await celeste.audio.analyze(
+    model="gpt-4o",
+    prompt="Summarize this audio",
+    audio=recording,
+)
+print(summary.content)
+```

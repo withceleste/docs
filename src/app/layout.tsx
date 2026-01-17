@@ -1,8 +1,9 @@
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import { Space_Grotesk, Space_Mono } from "next/font/google";
-import { baseOptions } from "@/lib/layout.shared";
+import { baseOptions, GITHUB_URL, WEBSITE_URL } from "@/lib/layout.shared";
 import { source } from "@/lib/source";
+import { Github, Globe } from "lucide-react";
 import "./global.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -27,8 +28,42 @@ export default function Layout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="flex flex-col min-h-screen" suppressHydrationWarning>
-        <RootProvider>
-          <DocsLayout tree={source.pageTree} {...baseOptions()}>
+        <RootProvider
+          search={{
+            options: {
+              type: "static",
+              api: "/api/search",
+            },
+          }}
+        >
+          <DocsLayout
+            tree={source.pageTree}
+            sidebar={{
+              footer: (
+                <div className="mt-2 flex flex-col gap-1">
+                  <a
+                    href={WEBSITE_URL}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-fd-muted-foreground transition-colors hover:bg-fd-accent/50 hover:text-fd-accent-foreground"
+                  >
+                    <Globe className="h-4 w-4" />
+                    Website
+                  </a>
+                  <a
+                    href={GITHUB_URL}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-fd-muted-foreground transition-colors hover:bg-fd-accent/50 hover:text-fd-accent-foreground"
+                  >
+                    <Github className="h-4 w-4" />
+                    GitHub
+                  </a>
+                </div>
+              ),
+            }}
+            {...baseOptions()}
+          >
             {children}
           </DocsLayout>
         </RootProvider>

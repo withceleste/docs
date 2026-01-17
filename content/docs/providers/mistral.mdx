@@ -26,9 +26,43 @@ export MISTRAL_API_KEY="..."
 ### Usage
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 
-client = create_client(Capability.TEXT_GENERATION, Provider.MISTRAL)
-response = await client.generate(prompt="Hello Mistral")
+response = await celeste.text.generate(
+    model="mistral-large-latest",
+    provider="mistral",
+    prompt="Hello Mistral",
+)
 ```
 
+## Models{/* AUTO-GENERATED:MODELS:START */}
+
+This section is auto-generated from the Celeste registry. Do not edit manually.
+
+Available modalities:
+
+- `text`: `analyze`, `generate`
+
+### Text
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `codestral-latest` | Codestral | `generate` | Yes |
+| `devstral-2512` | Devstral 2 | `generate` | Yes |
+| `labs-devstral-small-2512` | Devstral 2 Small | `generate` | Yes |
+| `devstral-medium-latest` | Devstral Medium | `generate` | Yes |
+| `magistral-medium-latest` | Magistral Medium | `analyze`, `generate` | Yes |
+| `magistral-small-latest` | Magistral Small | `analyze`, `generate` | Yes |
+| `ministral-14b-latest` | Ministral 14B | `generate` | Yes |
+| `ministral-3b-latest` | Ministral 3B | `generate` | Yes |
+| `ministral-8b-latest` | Ministral 8B | `generate` | Yes |
+| `mistral-large-latest` | Mistral Large | `generate` | Yes |
+| `mistral-medium-latest` | Mistral Medium | `analyze`, `generate` | Yes |
+| `mistral-small-latest` | Mistral Small | `analyze`, `generate` | Yes |
+| `mistral-tiny` | Mistral Tiny | `generate` | Yes |
+| `open-mistral-7b` | Open Mistral 7B | `generate` | Yes |
+| `pixtral-12b-2409` | Pixtral 12B | `analyze`, `generate` | Yes |
+| `pixtral-12b-latest` | Pixtral 12B | `analyze`, `generate` | Yes |
+| `pixtral-large-latest` | Pixtral Large | `analyze`, `generate` | Yes |
+| `voxtral-mini-2507` | Voxtral Mini | `generate` | Yes |
+{/* AUTO-GENERATED:MODELS:END */}

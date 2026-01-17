@@ -1,0 +1,38 @@
+---
+title: Images
+description: Operations on the images domain.
+---
+
+# Images Domain
+
+The **images domain** covers image generation, editing, and analysis. Analysis returns **text output** because the modality is text.
+
+## Operations
+
+| Operation | Output Modality | Namespace call |
+| :--- | :--- | :--- |
+| `generate` | Images | `await celeste.images.generate(...)` |
+| `edit` | Images | `await celeste.images.edit(...)` |
+| `analyze` | Text | `await celeste.images.analyze(...)` |
+
+## Examples
+
+```python
+import celeste
+from celeste.artifacts import ImageArtifact
+
+# Generate → images output
+image = await celeste.images.generate(
+    model="gpt-image-1",
+    prompt="A futuristic city at sunset",
+)
+
+# Analyze → text output
+photo = ImageArtifact(path="photo.png")
+description = await celeste.images.analyze(
+    model="gpt-4o",
+    prompt="Describe the scene",
+    image=photo,
+)
+print(description.content)
+```

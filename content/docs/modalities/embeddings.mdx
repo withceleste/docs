@@ -1,0 +1,67 @@
+---
+title: Embeddings
+description: Generate vector embeddings from text.
+---
+
+# Embeddings Modality
+
+The **Embeddings** modality is the **output type** for vector representations. You typically work with the **text domain** and call `celeste.text.embed(...)` to get embeddings.
+
+## Operations
+
+| Operation | Description |
+| :--- | :--- |
+| **`embed`** | Convert text into a vector embedding. |
+
+## Quick Start
+
+```python
+import celeste
+
+# Generate embedding (domain: text → modality: embeddings)
+response = await celeste.text.embed(
+    model="text-embedding-3-large",
+    text="The quick brown fox jumps over the lazy dog",
+)
+
+# Access the vector
+vector = response.content
+print(f"Vector length: {len(vector)}")
+```
+
+## Batch Processing
+
+You can embed multiple texts in a single request for efficiency.
+
+```python
+response = await celeste.text.embed(
+    model="text-embedding-3-large",
+    text=[
+        "First document",
+        "Second document",
+        "Third document"
+    ]
+)
+
+for vector in response.content:
+    print(vector[:5])  # Print first 5 dimensions
+```
+
+## Sync Usage
+
+For scripts or notebooks where async is not needed:
+
+```python
+response = celeste.text.sync.embed(
+    model="text-embedding-3-large",
+    text="Hello world",
+)
+print(response.content)
+```
+
+## Providers
+
+Supported providers for Embeddings:
+- OpenAI (`text-embedding-3-small`, `text-embedding-3-large`, etc.)
+- Google (Gecko)
+- Cohere (`embed-english-v3.0`, etc.)

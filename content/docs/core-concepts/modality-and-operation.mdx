@@ -1,0 +1,158 @@
+---
+title: Modality & operations
+description: The core mental model of Celeste v1.
+---
+
+# Architecture & Concepts
+
+Celeste v1 is built around a simple mental model: **Domain (what you work with) + Operation → Modality (output)**.
+
+<div className="not-prose grid gap-6 lg:grid-cols-[1fr_2fr]">
+  <div className="flex flex-col gap-4">
+    <div className="rounded-lg border border-fd-border bg-fd-accent/30 p-4">
+      <div className="text-sm font-semibold text-fd-muted-foreground">Domain</div>
+      <div className="mt-2 text-lg font-semibold">What you work with</div>
+      <div className="mt-1 text-sm text-fd-muted-foreground">
+        Images, Audio, Video, Text
+      </div>
+      <div className="mt-3 text-xs font-mono text-fd-muted-foreground">
+        Namespace API
+      </div>
+    </div>
+    <div className="rounded-lg border border-fd-border bg-fd-accent/30 p-4">
+      <div className="text-sm font-semibold text-fd-muted-foreground">Modality</div>
+      <div className="mt-2 text-lg font-semibold">What comes out</div>
+      <div className="mt-1 text-sm text-fd-muted-foreground">
+        Output type and client
+      </div>
+      <div className="mt-3 text-xs font-mono text-fd-muted-foreground">
+        create_client(modality=...)
+      </div>
+    </div>
+  </div>
+  <div className="rounded-lg border border-fd-border bg-fd-accent/20 p-4">
+    <div className="text-sm font-semibold text-fd-muted-foreground">Operation</div>
+    <div className="mt-2 text-lg font-semibold">How input becomes output</div>
+    <div className="mt-4 grid gap-3 text-sm">
+      <div className="grid grid-cols-[110px_1fr_auto] items-center gap-3 rounded-md border border-fd-border bg-fd-background p-3">
+        <span className="font-semibold">Generate</span>
+        <span className="text-fd-muted-foreground">Prompt → domain output</span>
+        <span className="text-xs font-mono text-fd-muted-foreground">output = modality</span>
+      </div>
+      <div className="grid grid-cols-[110px_1fr_auto] items-center gap-3 rounded-md border border-fd-border bg-fd-background p-3">
+        <span className="font-semibold">Edit</span>
+        <span className="text-fd-muted-foreground">Domain → same domain</span>
+        <span className="text-xs font-mono text-fd-muted-foreground">images client</span>
+      </div>
+      <div className="grid grid-cols-[110px_1fr_auto] items-center gap-3 rounded-md border border-fd-border bg-fd-background p-3">
+        <span className="font-semibold">Analyze</span>
+        <span className="text-fd-muted-foreground">Media → text</span>
+        <span className="text-xs font-mono text-fd-muted-foreground">text client</span>
+      </div>
+      <div className="grid grid-cols-[110px_1fr_auto] items-center gap-3 rounded-md border border-fd-border bg-fd-background p-3">
+        <span className="font-semibold">Embed</span>
+        <span className="text-fd-muted-foreground">Any domain → vector</span>
+        <span className="text-xs font-mono text-fd-muted-foreground">embeddings client</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div className="not-prose mt-6 flex flex-wrap gap-3">
+  <div className="rounded-full border border-fd-border bg-fd-accent/30 px-4 py-2 text-sm">
+    <span className="font-semibold">Namespaces use domains</span>
+    <span className="ml-2 font-mono text-fd-muted-foreground">celeste.images.analyze(...)</span>
+  </div>
+  <div className="rounded-full border border-fd-border bg-fd-accent/30 px-4 py-2 text-sm">
+    <span className="font-semibold">Clients use modalities</span>
+    <span className="ml-2 font-mono text-fd-muted-foreground">create_client(modality=\"text\")</span>
+  </div>
+</div>
+
+<div className="not-prose mt-4 grid gap-2 text-sm text-fd-muted-foreground">
+  <div>Image generation → domain: images, output modality: images</div>
+  <div>Image analysis → domain: images, output modality: text</div>
+</div>
+
+## The Core Trinity
+
+### 1. Modality (The output)
+**What comes out.**
+Modality defines the output type you receive: text, images, audio, video, or embeddings.
+
+### 2. Domain (What you work with)
+**The resource you operate on.**
+Domain is not input vs output; it is the thing you are working with. That resource can be input or output depending on the operation.
+
+- Image generation: domain = images, output modality = images.
+- Image analysis: domain = images, output modality = text.
+
+### 3. Operation (The transformation)
+**The method you call.**
+Operations describe how the domain is transformed into the output modality.
+
+## Operation Matrix (Namespace-first)
+
+This matrix explains where to find every operation in Celeste.
+
+| What you work with (Domain) | Operation | Output (Modality) | Namespace call |
+| :--- | :--- | :--- | :--- |
+| Text | `generate` | Text | `await celeste.text.generate(...)` |
+| Text | `embed` | Embeddings | `await celeste.text.embed(...)` |
+| Images | `generate` | Images | `await celeste.images.generate(...)` |
+| Images | `edit` | Images | `await celeste.images.edit(...)` |
+| Images | `analyze` | Text | `await celeste.images.analyze(...)` |
+| Audio | `speak` | Audio | `await celeste.audio.speak(...)` |
+| Audio | `analyze` | Text | `await celeste.audio.analyze(...)` |
+| Videos | `generate` | Videos | `await celeste.videos.generate(...)` |
+| Videos | `analyze` | Text | `await celeste.videos.analyze(...)` |
+
+### Operations by Domain
+
+| Action | text | images | videos | audio |
+|--------|------|--------|--------|-------|
+| `generate` | ✓ | ✓ | ✓ | ○ |
+| `edit` | · | ✓ | · | · |
+| `analyze` | · | ✓ | ✓ | ✓ |
+| `upscale` | · | ○ | ○ | · |
+| `speak` | · | · | · | ✓ |
+| `transcribe` | · | · | · | ○ |
+| `embed` | ✓ | ○ | ○ | · |
+
+**Legend:** ✓ = Available · ○ = Planned · · = Not applicable
+
+**Note:** This table is by **domain (what you work with)**. **Embeddings** is a **modality** (vector output) produced by the `embed` operation, so it is not listed as a domain.
+
+## Examples
+
+### Image Generation (Image domain → Image output)
+
+```python
+import celeste
+
+response = await celeste.images.generate(
+    model="gpt-image-1",
+    prompt="A red apple",
+)
+image = response.content
+```
+
+### Image Analysis (Image domain → Text output)
+
+```python
+import celeste
+from celeste.artifacts import ImageArtifact
+
+image = ImageArtifact(path="apple.png")
+
+response = await celeste.images.analyze(
+    model="gpt-4o",
+    prompt="Describe this image",
+    image=image,
+)
+text = response.content
+```
+
+## Why this design?
+
+Celeste keeps outputs predictable: a text response always returns `TextOutput`, an image response always returns `ImageOutput`, and so on. The namespace-first API mirrors how people think (“I have an image; I want to analyze it”) while the modality system keeps output types consistent and type-safe.

@@ -1,0 +1,4 @@
+{
+  "title": "Modalities",
+  "pages": ["index", "text", "images", "audio", "video", "embeddings"]
+}

@@ -19,15 +19,35 @@ export COHERE_API_KEY="..."
 
 ### Models
 
-- `command-r-plus` (Default)
-- `command-r`
+- `command-a-03-2025` (Default)
+- `command-r7b-12-2024`
 
 ### Usage
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 
-client = create_client(Capability.TEXT_GENERATION, Provider.COHERE)
-response = await client.generate(prompt="Hello Command R")
+response = await celeste.text.generate(
+    model="command-a-03-2025",
+    prompt="Hello Command R",
+)
 ```
 
+## Models
+
+{/* AUTO-GENERATED:MODELS:START */}
+
+This section is auto-generated from the Celeste registry. Do not edit manually.
+
+Available modalities:
+
+- `text`: `analyze`, `generate`
+
+### Text
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `command-a-03-2025` | Command A 03-2025 | `generate` | Yes |
+| `command-a-vision-07-2025` | Command A Vision 07-2025 | `analyze`, `generate` | Yes |
+| `command-r7b-12-2024` | Command R7B | `generate` | Yes |
+{/* AUTO-GENERATED:MODELS:END */}

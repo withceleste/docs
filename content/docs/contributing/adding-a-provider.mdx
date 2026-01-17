@@ -1,0 +1,78 @@
+---
+title: Adding a Provider
+description: How to implement a new provider for an existing modality.
+---
+
+# Adding a Provider
+
+Celeste makes it easy to add support for new AI providers. This guide outlines the steps to implement a new provider within an existing modality package.
+
+## Directory Structure
+
+Providers live under the monolith at `src/celeste/modalities/<modality>/providers/`.
+
+For example, to add a provider to the `images` modality:
+
+```
+src/celeste/modalities/images/providers/
+└── {provider_slug}/
+    ├── __init__.py
+    ├── client.py
+    ├── models.py
+    └── parameters.py
+```
+
+## Implementation Steps
+
+### 1. Create the Provider Package
+
+Create a new directory for your provider using the slug (e.g., `midjourney`, `stability`). You can also start from the templates in `templates/providers/` for a full scaffold.
+
+### 2. Implement the Client (`client.py`)
+
+The client implementation handles the communication with the provider's API.
+
+- Inherit from the modality's base client or a specific internal interface.
+- Implement the `_make_request` or equivalent method to send data to the API.
+- Map the provider's response to the Celeste standard `Output` objects defined in `io.py`.
+
+### 3. Define Models (`models.py`)
+
+List the available models supported by this provider for this modality.
+
+```python
+from celeste.models import Model
+from celeste.core import Modality, Operation
+
+MODELS = [
+    Model(
+        id="provider-model-v1",
+        provider="new_provider",
+        operations={
+            Modality.IMAGES: {Operation.GENERATE}
+        }
+    )
+]
+```
+
+### 4. Map Parameters (`parameters.py`)
+
+Map Celeste's standard parameters (like `quality`, `size`) to the provider's specific API parameters.
+
+- Use `ParameterMapper` classes to handle conversions.
+- Ensure that provider-specific parameters are handled gracefully.
+
+### 5. Register the Provider (`__init__.py`)
+
+Expose the client and models in the provider's `__init__.py` so they can be discovered by the core registry.
+
+## Testing
+
+1.  **Unit Tests**: Create tests in `tests/unit_tests/` to verify parameter mapping and response parsing without making network calls.
+2.  **Integration Tests**: Create tests in `tests/integration_tests/` to verify actual API interaction (requires API keys).
+
+## Best Practices
+
+- **Type Safety**: Use full type hints for all methods.
+- **Error Handling**: Catch provider-specific errors and raise Celeste's standard exceptions where appropriate.
+- **Documentation**: Add docstrings to your classes and methods explaining any provider-specific behaviors.

@@ -1,6 +1,6 @@
 ---
 title: Multi-Modal Workflows
-description: Combining capabilities for complex workflows.
+description: Combining modalities for complex workflows.
 ---
 
 # Multi-Modal Workflows
@@ -12,36 +12,45 @@ One of Celeste's strengths is the ability to combine different modalities using 
 Generate an image based on a detailed description created by an LLM.
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 
-# 1. Create clients
-text_client = create_client(Capability.TEXT_GENERATION, Provider.ANTHROPIC)
-image_client = create_client(Capability.IMAGE_GENERATION, Provider.OPENAI)
-
-# 2. Generate prompt
-prompt_response = await text_client.generate(
-    prompt="Describe a surreal landscape with floating islands in 2 sentences."
+# 1. Generate prompt (domain: text)
+prompt_response = await celeste.text.generate(
+    model="claude-sonnet-4-5",
+    prompt="Describe a surreal landscape with floating islands in 2 sentences.",
 )
 image_prompt = prompt_response.content
 print(f"Generating image for: {image_prompt}")
 
-# 3. Generate image
-image_response = await image_client.generate(
+# 2. Generate image (domain: images)
+image_response = await celeste.images.generate(
+    model="gpt-image-1",
     prompt=image_prompt,
     quality="hd"
 )
 
 # 4. Save
-image_response.content.save("surreal_islands.png")
+with open("surreal_islands.png", "wb") as f:
+    f.write(image_response.content.get_bytes())
 ```
 
 ## Image to Text (Vision)
 
-Analyze an image using a vision model.
+Analyze an image using a vision model. This uses the **images domain**, but the **output modality is text**.
 
 ```python
-# Note: Image Intelligence capability implementation details
-# would mirror the structure of other capabilities.
+from celeste.artifacts import ImageArtifact
+
+# Load image
+image = ImageArtifact(path="surreal_islands.png")
+
+# Analyze (domain: images, output: text)
+description = await celeste.images.analyze(
+    model="gpt-4o",
+    prompt="What colors are dominant in this image?",
+    image=image
+)
+print(description.content)
 ```
 
 ## Text to Speech
@@ -49,18 +58,18 @@ Analyze an image using a vision model.
 Read out generated text.
 
 ```python
-text_client = create_client(Capability.TEXT_GENERATION, Provider.OPENAI)
-speech_client = create_client(Capability.SPEECH_GENERATION, Provider.ELEVENLABS)
+story = await celeste.text.generate(
+    model="gpt-4o",
+    prompt="Tell a very short story.",
+)
 
-# Generate story
-story = await text_client.generate(prompt="Tell a very short story.")
-
-# Speak it
-audio = await speech_client.generate(
-    prompt=story.content,
+audio = await celeste.audio.speak(
+    model="eleven_v3",
+    text=story.content,
     voice="rachel"
 )
 
-audio.content.save("story.mp3")
+with open("story.mp3", "wb") as f:
+    f.write(audio.content.get_bytes())
 ```
 
