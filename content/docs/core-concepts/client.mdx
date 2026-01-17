@@ -1,66 +1,85 @@
 ---
-title: The Client
-description: The unified interface for all AI capabilities.
+title: The client
+description: Create modality clients and call operation methods.
 ---
 
-# The Client
+# The client
 
-The `Client` is the core primitive in Celeste. It provides a consistent interface for interacting with different AI models and capabilities.
+Celeste v1 is **namespace-first**, but this page focuses on the **client** pattern. The client API is **modality-first**, meaning you choose the output type you want.
 
-## Creating a Client
+## Create a client (advanced)
 
-Use the `create_client` function to instantiate a client.
+Use `create_client` when you want explicit control or reuse a configured client. This is **modality-first**, so you specify the output type and (optionally) the operation.
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 
-client = create_client(
-    capability=Capability.TEXT_GENERATION,
-    provider=Provider.ANTHROPIC,
+client = celeste.create_client(
+    modality="text",
+    provider="openai",
+    model="gpt-4o",
 )
 ```
 
 ### Arguments
 
-- **`capability`** (`Capability`): The capability to use (e.g., `TEXT_GENERATION`, `IMAGE_GENERATION`).
-- **`provider`** (`Provider`, optional): The provider to use. Required if `model` is a string ID.
-- **`model`** (`Model | str`, optional): Specific model to use. If omitted, a default model for the provider/capability is selected.
-- **`api_key`** (`SecretStr`, optional): API key override. If omitted, loaded from environment variables.
+- **`modality`** (`str | Modality`): The modality to use (e.g., `"text"`, `"images"`).
+- **`operation`** (`str | Operation`, optional): Optional operation filter.
+- **`provider`** (`str | Provider`, optional): The provider to use (e.g., `"openai"`, `"anthropic"`).
+- **`model`** (`str | Model`, optional): Specific model to use.
+- **`api_key`** (`str`, optional): API key override.
+- **`auth`** (`Authentication`, optional): Custom authentication override (advanced).
 
-## The Client Interface
+## Execution modes
 
-All clients share a common interface with two main methods: `generate` and `stream`.
+Celeste supports three execution modes to handle different use cases:
 
-### `generate`
+| Mode | Pattern | Return Type | Use Case |
+|------|---------|-------------|----------|
+| **Async** | `await client.generate()` | `Output` | Production, async apps |
+| **Streaming** | `client.stream.generate()` | `AsyncIterator[Chunk]` | Chat UIs, real-time feedback |
+| **Sync** | `client.sync.generate()` | `Output` | Scripts, notebooks, testing |
 
-The `generate` method creates a complete response.
+### Async (default)
+
+Async operation methods return a complete typed output object. Best for production applications.
 
 ```python
-response = await client.generate(
-    prompt="Hello world",
-    temperature=0.7
-)
+response = await client.generate(prompt="Hello world", temperature=0.7)
+print(response.content)
 ```
 
-- **Arguments**: Positional arguments (like `prompt`) and keyword arguments (parameters like `temperature`) vary by capability.
-- **Returns**: A strongly-typed output object (e.g., `TextGenerationOutput`).
+### Streaming (`client.stream.<operation>()`)
 
-### `stream`
-
-The `stream` method yields chunks of the response as they are generated.
+Streaming returns chunks as they are generated. Best for UIs requiring real-time feedback.
 
 ```python
-stream = client.stream(
-    prompt="Hello world",
-    temperature=0.7
-)
+stream = client.stream.generate(prompt="Count from 1 to 5")
 
 async for chunk in stream:
     print(chunk.content, end="")
+
+final_response = stream.output
+print(final_response.content)
 ```
 
-- **Arguments**: Same as `generate`.
-- **Returns**: An async iterator yielding typed chunks.
+### Sync (`client.sync.<operation>()`)
+
+Sync methods are blocking calls. Best for scripts, notebooks, and testing.
+
+```python
+response = client.sync.generate(prompt="Hello world")
+print(response.content)
+```
+
+Sync streaming is also supported:
+
+```python
+stream = client.sync.stream.generate(prompt="Hello world")
+for chunk in stream:
+    print(chunk.content, end="")
+print(stream.output.content)
+```
 
 ## Type Safety
 
@@ -70,7 +89,7 @@ Clients are generic over their Input, Output, and Parameters. This means your ID
 - **Response**: `response.content`, `response.usage`, etc.
 
 ```python
-# IDE knows this is TextGenerationOutput
+# IDE knows this is a TextOutput (for text modality)
 response = await client.generate(prompt="...")
 
 # IDE knows this is int
