@@ -140,3 +140,9 @@ header nav a {
   transition-timing-function: ease-out;
   transition-duration: 0.2s;
 }
+
+/* Hide provider logo images in MDX content (they're now shown inline with the title) */
+[data-provider-page="true"] img[src^="/logos/"] {
+  display: none !important;
+}
+
