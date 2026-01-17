@@ -1,0 +1,26 @@
+---
+title: Modalities
+description: Modality-first clients and operation-based methods in Celeste v1.
+---
+
+# Modalities
+
+Modalities are **output types** (text, images, audio, video, embeddings). The public API is **namespace-first**, so you usually start from the domain you work with and let Celeste route to the correct modality.
+
+For day-to-day usage, see the [Domains](/docs/domains) section.
+
+```python
+import celeste
+
+# Domain: images → output: text
+result = await celeste.images.analyze(
+    model="gpt-4o",
+    prompt="Describe this image",
+    image=img,
+)
+```
+
+Next:
+- Text (output): `celeste.text.generate(...)`, `celeste.text.embed(...)`
+- Images (output): `celeste.images.generate(...)`, `celeste.images.edit(...)`
+

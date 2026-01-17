@@ -1,0 +1,37 @@
+---
+title: Video
+description: Operations on the video domain.
+---
+
+# Video Domain
+
+The **video domain** covers video generation and analysis. Analysis returns **text output** because the modality is text.
+
+## Operations
+
+| Operation | Output Modality | Namespace call |
+| :--- | :--- | :--- |
+| `generate` | Videos | `await celeste.videos.generate(...)` |
+| `analyze` | Text | `await celeste.videos.analyze(...)` |
+
+## Examples
+
+```python
+import celeste
+from celeste.artifacts import VideoArtifact
+
+# Generate → video output
+video = await celeste.videos.generate(
+    model="veo-3.0-generate-001",
+    prompt="Waves crashing on a rocky shore",
+)
+
+# Analyze → text output
+clip = VideoArtifact(path="clip.mp4")
+description = await celeste.videos.analyze(
+    model="gpt-4o",
+    prompt="Describe what happens in this video",
+    video=clip,
+)
+print(description.content)
+```

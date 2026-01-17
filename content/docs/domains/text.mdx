@@ -1,0 +1,35 @@
+---
+title: Text
+description: Operations on the text domain.
+---
+
+# Text Domain
+
+The **text domain** is for prompts, documents, and structured outputs. It supports **text generation** and **embeddings**.
+
+## Operations
+
+| Operation | Output Modality | Namespace call |
+| :--- | :--- | :--- |
+| `generate` | Text | `await celeste.text.generate(...)` |
+| `embed` | Embeddings | `await celeste.text.embed(...)` |
+
+## Examples
+
+```python
+import celeste
+
+# Text generation → text output
+story = await celeste.text.generate(
+    model="gpt-4o",
+    prompt="Write a short story about a lighthouse.",
+)
+print(story.content)
+
+# Embeddings → embeddings output
+embeddings = await celeste.text.embed(
+    model="text-embedding-3-large",
+    text="The quick brown fox jumps over the lazy dog",
+)
+print(len(embeddings.content))
+```

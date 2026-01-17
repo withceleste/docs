@@ -1,0 +1,41 @@
+---
+title: Domains
+description: Domain-first namespaces for day-to-day usage.
+---
+
+# Domains
+
+Domains are **what you work with**. The namespace API is domain-first, so you start from the resource and pick an operation.
+
+**Rule of thumb**
+- **Namespaces use domains**: `celeste.images.analyze(...)`
+- **Clients use modalities**: `create_client(modality="text")`
+
+## Available Domains
+
+- **Text**: prompts, documents, structured outputs.
+- **Images**: image generation, editing, and image analysis.
+- **Audio**: text-to-speech and audio analysis.
+- **Video**: video generation and video analysis.
+
+## Domain vs Modality
+
+Modality is the **output type** (and the client you create). Domain is the **resource you work with**. The same domain can map to different output modalities depending on the operation.
+
+Example:
+- `celeste.images.generate(...)` → **images** output
+- `celeste.images.analyze(...)` → **text** output
+
+## Quick Example
+
+```python
+import celeste
+
+# Domain: images → output: text
+response = await celeste.images.analyze(
+    model="gpt-4o",
+    prompt="Describe this image",
+    image=img,
+)
+print(response.content)
+```

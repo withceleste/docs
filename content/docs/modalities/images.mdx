@@ -1,0 +1,69 @@
+---
+title: Images
+description: Image generation and editing.
+---
+
+# Images Modality
+
+The **Images** modality is the **output type** for image generation and editing. When you work with images and want **text output** (analysis), you still use the **images domain** via `celeste.images.analyze(...)`, but the output modality is text.
+
+## Operations
+
+| Operation | Description |
+| :--- | :--- |
+| **`generate`** | Create an image from a text prompt. |
+| **`edit`** | Modify an existing image using a prompt and mask. |
+| **`upscale`** | Increase the resolution of an image. (Planned) |
+
+## Quick Start
+
+```python
+import celeste
+
+# Generate (domain: images)
+response = await celeste.images.generate(
+    model="gpt-image-1",
+    prompt="A cyberpunk city at night",
+    aspect_ratio="1:1"
+)
+with open("cyberpunk.png", "wb") as f:
+    f.write(response.content.get_bytes())
+```
+
+## Editing
+
+```python
+from celeste.artifacts import ImageArtifact
+
+base_image = ImageArtifact(path="photo.png")
+
+response = await celeste.images.edit(
+    model="gpt-image-1",
+    image=base_image,
+    prompt="Add a red hat",
+    mask=... # optional mask
+)
+```
+
+## Image Analysis (Text Output)
+
+```python
+from celeste.artifacts import ImageArtifact
+
+image = ImageArtifact(path="photo.png")
+
+response = await celeste.images.analyze(
+    model="gpt-4o",
+    image=image,
+    prompt="Describe the scene",
+)
+print(response.content)
+```
+
+## Providers
+
+Supported providers for Images:
+- OpenAI (DALL·E 3)
+- Google (Imagen 3)
+- BFL (Flux)
+- BytePlus

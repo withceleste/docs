@@ -1,0 +1,52 @@
+---
+title: Video
+description: Video generation and analysis.
+---
+
+# Video Modality
+
+The **Video** modality is the **output type** for video generation. For video **analysis**, use the **video domain** (`celeste.videos.analyze(...)`) and you will receive **text output**.
+
+## Operations
+
+| Operation | Description |
+| :--- | :--- |
+| **`generate`** | Create a video from a text or image prompt. |
+
+## Quick Start
+
+```python
+import celeste
+
+# Generate
+video = await celeste.videos.generate(
+    model="ray-2",
+    prompt="A drone shot of a beautiful coastline at sunset",
+    duration=8,
+)
+
+with open("coast.mp4", "wb") as f:
+    f.write(video.content.get_bytes())
+```
+
+## Video Analysis (Text Output)
+
+```python
+from celeste.artifacts import VideoArtifact
+
+video = VideoArtifact(path="clip.mp4")
+
+response = await celeste.videos.analyze(
+    model="gpt-4o",
+    video=video,
+    prompt="Describe what happens in this video",
+)
+print(response.content)
+```
+
+## Providers
+
+Supported providers for Video:
+- Luma (Ray)
+- BytePlus (PixelDance)
+- Google (Veo)

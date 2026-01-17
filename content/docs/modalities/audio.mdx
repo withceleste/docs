@@ -1,0 +1,68 @@
+---
+title: Audio
+description: Speech synthesis (TTS) and transcription.
+---
+
+# Audio Modality
+
+The **Audio** modality is the **output type** for speech synthesis and audio generation. When you work with audio and want **text output** (analysis), use `celeste.audio.analyze(...)` and the response will be text.
+
+## Operations
+
+| Operation | Description |
+| :--- | :--- |
+| **`speak`** | Convert text to speech (TTS). |
+| **`transcribe`** | Convert audio to text (STT). (Planned) |
+| **`generate`** | Generate audio/music from a text prompt. (Planned) |
+
+## Quick Start
+
+```python
+import celeste
+
+# Speak (TTS)
+audio = await celeste.audio.speak(
+    model="eleven_v3",
+    text="Hello, this is a generated voice.",
+    voice="rachel",
+)
+
+# Save to file
+with open("output.mp3", "wb") as f:
+    f.write(audio.content.get_bytes())
+```
+
+## Streaming Audio
+
+```python
+stream = celeste.audio.stream.speak(
+    model="eleven_v3",
+    text="Reading a long book...",
+)
+
+async for chunk in stream:
+    # chunk.content is bytes
+    player.write(chunk.content)
+```
+
+## Audio Analysis (Text Output)
+
+```python
+from celeste.artifacts import AudioArtifact
+
+audio = AudioArtifact(path="recording.mp3")
+
+response = await celeste.audio.analyze(
+    model="gpt-4o",
+    audio=audio,
+    prompt="Summarize what is being said",
+)
+print(response.content)
+```
+
+## Providers
+
+Supported providers for Audio:
+- ElevenLabs
+- OpenAI (TTS)
+- Google (Cloud TTS)
