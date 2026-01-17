@@ -27,10 +27,12 @@ export OPENAI_API_KEY="sk-..."
 ### Usage
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 
-client = create_client(Capability.TEXT_GENERATION, Provider.OPENAI, model="gpt-4o")
-response = await client.generate(prompt="Hello GPT-4o")
+response = await celeste.text.generate(
+    model="gpt-4o",
+    prompt="Hello GPT-4o",
+)
 ```
 
 ## Image Generation
@@ -43,10 +45,12 @@ response = await client.generate(prompt="Hello GPT-4o")
 ### Usage
 
 ```python
-client = create_client(Capability.IMAGE_GENERATION, Provider.OPENAI)
-response = await client.generate(
+import celeste
+
+response = await celeste.images.generate(
+    model="dall-e-3",
     prompt="A cute robot",
-    quality="hd"
+    quality="hd",
 )
 ```
 
@@ -60,10 +64,71 @@ response = await client.generate(
 ### Usage
 
 ```python
-client = create_client(Capability.SPEECH_GENERATION, Provider.OPENAI)
-response = await client.generate(
-    prompt="Hello world",
-    voice="alloy"
+import celeste
+
+response = await celeste.audio.speak(
+    model="tts-1",
+    text="Hello world",
+    voice="alloy",
 )
 ```
 
+## Models
+
+{/* AUTO-GENERATED:MODELS:START */}
+
+This section is auto-generated from the Celeste registry. Do not edit manually.
+
+Available modalities:
+
+- `audio`: `speak`
+- `images`: `edit`, `generate`
+- `text`: `analyze`, `generate`
+- `videos`: `generate`
+
+### Text
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `gpt-3.5-turbo` | GPT-3.5 Turbo | `generate` | Yes |
+| `gpt-4` | GPT-4 | `generate` | Yes |
+| `gpt-4-turbo` | GPT-4 Turbo | `analyze`, `generate` | Yes |
+| `gpt-4.1` | GPT-4.1 | `analyze`, `generate` | Yes |
+| `gpt-4o` | GPT-4o | `analyze`, `generate` | Yes |
+| `gpt-4o-mini` | GPT-4o Mini | `analyze`, `generate` | Yes |
+| `gpt-5` | GPT-5 | `analyze`, `generate` | Yes |
+| `gpt-5-mini` | GPT-5 Mini | `analyze`, `generate` | Yes |
+| `gpt-5-nano` | GPT-5 Nano | `analyze`, `generate` | Yes |
+| `gpt-5.1` | GPT-5.1 | `analyze`, `generate` | Yes |
+| `gpt-5.1-codex` | GPT-5.1 Codex | `analyze`, `generate` | Yes |
+| `gpt-5.2` | GPT-5.2 | `analyze`, `generate` | Yes |
+| `gpt-5.2-codex` | GPT-5.2 Codex | `analyze`, `generate` | Yes |
+| `gpt-5.2-chat-latest` | GPT-5.2 Instant | `analyze`, `generate` | Yes |
+| `gpt-5.2-pro` | GPT-5.2 Pro | `analyze`, `generate` | Yes |
+
+### Images
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `dall-e-2` | DALL-E 2 | `edit`, `generate` | No |
+| `dall-e-3` | DALL-E 3 | `generate` | No |
+| `gpt-image-1` | GPT Image 1 | `edit`, `generate` | Yes |
+| `gpt-image-1-mini` | GPT Image 1 Mini | `edit`, `generate` | Yes |
+| `gpt-image-1.5` | GPT Image 1.5 | `edit`, `generate` | No |
+
+### Audio
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `gpt-4o-mini-tts` | GPT-4o Mini TTS | `speak` | No |
+| `tts-1` | TTS-1 | `speak` | No |
+| `tts-1-hd` | TTS-1 HD | `speak` | No |
+
+### Videos
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `sora-2` | Sora 2 | `generate` | No |
+| `sora-2-2025-12-08` | Sora 2 (December 2025) | `generate` | No |
+| `sora-2-pro` | Sora 2 Pro | `generate` | No |
+{/* AUTO-GENERATED:MODELS:END */}

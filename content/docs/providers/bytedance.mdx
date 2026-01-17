@@ -5,14 +5,14 @@ description: Documentation for the ByteDance provider.
 
 <img src="/logos/bytedance.svg" width="64" height="64" alt="ByteDance" className="mb-6" />
 
-Celeste supports ByteDance's models (e.g., via Volcano Engine) primarily for video generation.
+Celeste supports ByteDance's models via the BytePlus provider for video generation.
 
 ## Credentials
 
-Set the `BYTEDANCE_API_KEY` environment variable.
+Set the `BYTEPLUS_API_KEY` environment variable.
 
 ```bash
-export BYTEDANCE_API_KEY="..."
+export BYTEPLUS_API_KEY="..."
 ```
 
 ## Video Generation
@@ -24,12 +24,13 @@ export BYTEDANCE_API_KEY="..."
 ### Usage
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 
-client = create_client(Capability.VIDEO_GENERATION, Provider.BYTEDANCE)
-response = await client.generate(
+response = await celeste.videos.generate(
+    model="pixeldance",
+    provider="byteplus",
     prompt="A panda eating bamboo",
-    aspect_ratio="16:9"
+    aspect_ratio="16:9",
 )
 ```
 

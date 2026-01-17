@@ -27,10 +27,12 @@ export ANTHROPIC_API_KEY="sk-ant-..."
 ### Usage
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 
-client = create_client(Capability.TEXT_GENERATION, Provider.ANTHROPIC, model="claude-3-5-sonnet-20240620")
-response = await client.generate(prompt="Hello Claude")
+response = await celeste.text.generate(
+    model="claude-3-5-sonnet-20240620",
+    prompt="Hello Claude",
+)
 ```
 
 ### Thinking
@@ -38,9 +40,31 @@ response = await client.generate(prompt="Hello Claude")
 Anthropic models support extended thinking parameters.
 
 ```python
-response = await client.generate(
+response = await celeste.text.generate(
+    model="claude-3-5-sonnet-20240620",
     prompt="Solve this complex logic puzzle...",
     thinking_budget=4096
 )
 ```
 
+## Models
+
+{/* AUTO-GENERATED:MODELS:START */}
+
+This section is auto-generated from the Celeste registry. Do not edit manually.
+
+Available modalities:
+
+- `text`: `analyze`, `generate`
+
+### Text
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `claude-haiku-4-5` | Claude Haiku 4.5 | `analyze`, `generate` | Yes |
+| `claude-opus-4-20250514` | Claude Opus 4 | `analyze`, `generate` | Yes |
+| `claude-opus-4-1` | Claude Opus 4.1 | `analyze`, `generate` | Yes |
+| `claude-opus-4-5` | Claude Opus 4.5 | `analyze`, `generate` | Yes |
+| `claude-sonnet-4-20250514` | Claude Sonnet 4 | `analyze`, `generate` | Yes |
+| `claude-sonnet-4-5` | Claude Sonnet 4.5 | `analyze`, `generate` | Yes |
+{/* AUTO-GENERATED:MODELS:END */}

@@ -25,10 +25,13 @@ export GOOGLE_API_KEY="AIza..."
 ### Usage
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 
-client = create_client(Capability.TEXT_GENERATION, Provider.GOOGLE)
-response = await client.generate(prompt="Hello Gemini")
+response = await celeste.text.generate(
+    model="gemini-1.5-pro",
+    provider="google",
+    prompt="Hello Gemini",
+)
 ```
 
 ## Image Generation
@@ -40,8 +43,13 @@ response = await client.generate(prompt="Hello Gemini")
 ### Usage
 
 ```python
-client = create_client(Capability.IMAGE_GENERATION, Provider.GOOGLE)
-response = await client.generate(prompt="A futuristic landscape")
+import celeste
+
+response = await celeste.images.generate(
+    model="imagen-3.0-generate-001",
+    provider="google",
+    prompt="A futuristic landscape",
+)
 ```
 
 ## Video Generation
@@ -49,7 +57,66 @@ response = await client.generate(prompt="A futuristic landscape")
 Google also supports video generation via specific models.
 
 ```python
-client = create_client(Capability.VIDEO_GENERATION, Provider.GOOGLE)
-# Usage depends on model availability
+import celeste
+
+video = await celeste.videos.generate(
+    model="veo-3.0-generate-001",
+    provider="google",
+    prompt="A sunrise over the mountains",
+)
 ```
 
+## Models{/* AUTO-GENERATED:MODELS:START */}
+
+This section is auto-generated from the Celeste registry. Do not edit manually.
+
+Available modalities:
+
+- `audio`: `speak`
+- `embeddings`: `embed`
+- `images`: `edit`, `generate`
+- `text`: `analyze`, `generate`
+- `videos`: `generate`
+
+### Text
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `gemini-2.5-flash` | Gemini 2.5 Flash | `analyze`, `generate` | Yes |
+| `gemini-2.5-flash-lite` | Gemini 2.5 Flash Lite | `analyze`, `generate` | Yes |
+| `gemini-2.5-pro` | Gemini 2.5 Pro | `analyze`, `generate` | Yes |
+| `gemini-3-flash-preview` | Gemini 3 Flash | `analyze`, `generate` | Yes |
+| `gemini-3-pro-preview` | Gemini 3 Pro | `analyze`, `generate` | Yes |
+
+### Images
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `gemini-2.5-flash-image` | Gemini 2.5 Flash Image | `edit`, `generate` | No |
+| `gemini-3-pro-image-preview` | Gemini 3 Pro Image (Preview) | `edit`, `generate` | No |
+| `imagen-4.0-generate-001` | Imagen 4 | `generate` | No |
+| `imagen-4.0-fast-generate-001` | Imagen 4 Fast | `generate` | No |
+| `imagen-4.0-ultra-generate-001` | Imagen 4 Ultra | `generate` | No |
+
+### Audio
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `gemini-2.5-flash-tts` | Google TTS Gemini 2.5 Flash | `speak` | No |
+| `gemini-2.5-pro-tts` | Google TTS Gemini 2.5 Pro | `speak` | No |
+
+### Videos
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `veo-3.0-generate-001` | Veo 3 | `generate` | No |
+| `veo-3.0-fast-generate-001` | Veo 3 Fast | `generate` | No |
+| `veo-3.1-generate-preview` | Veo 3.1 (Preview) | `generate` | No |
+| `veo-3.1-fast-generate-preview` | Veo 3.1 Fast (Preview) | `generate` | No |
+
+### Embeddings
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `gemini-embedding-001` | Gemini Embedding 001 | `embed` | No |
+{/* AUTO-GENERATED:MODELS:END */}

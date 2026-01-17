@@ -25,12 +25,34 @@ export ELEVENLABS_API_KEY="..."
 ### Usage
 
 ```python
-from celeste import create_client, Capability, Provider
+import celeste
 
-client = create_client(Capability.SPEECH_GENERATION, Provider.ELEVENLABS)
-response = await client.generate(
-    prompt="This voice is AI generated.",
+response = await celeste.audio.speak(
+    model="eleven_multilingual_v2",
+    provider="elevenlabs",
+    text="This voice is AI generated.",
     voice="Rachel" # Use voice ID or name
 )
 ```
 
+## Models{/* AUTO-GENERATED:MODELS:START */}
+
+This section is auto-generated from the Celeste registry. Do not edit manually.
+
+Available modalities:
+
+- `audio`: `speak`
+
+### Audio
+
+| Model ID | Display name | Operations | Streaming |
+| :--- | :--- | :--- | :--- |
+| `eleven_monolingual_v1` | Eleven English v1 | `speak` | Yes |
+| `eleven_flash_v2` | Eleven Flash v2 | `speak` | Yes |
+| `eleven_flash_v2_5` | Eleven Flash v2.5 | `speak` | Yes |
+| `eleven_multilingual_v1` | Eleven Multilingual v1 | `speak` | Yes |
+| `eleven_multilingual_v2` | Eleven Multilingual v2 | `speak` | No |
+| `eleven_turbo_v2` | Eleven Turbo v2 | `speak` | Yes |
+| `eleven_turbo_v2_5` | Eleven Turbo v2.5 | `speak` | Yes |
+| `eleven_v3` | Eleven v3 (Alpha) | `speak` | No |
+{/* AUTO-GENERATED:MODELS:END */}
